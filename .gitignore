@@ -1,0 +1,19 @@
+# Maxfiy ma'lumotlar (parol, API kalit)
+.env
+.env.*
+
+# Operatsion tizim fayllari
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Muharrir va Claude sozlamalari
+.vscode/
+.idea/
+.claude/
+
+# Vaqtinchalik fayllar va loglar
+*.log
+*.tmp
+*.bak
+node_modules/

@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muhammadmuso Alijonov — AI & IT Teacher</title>
+  <meta name="description" content="Muhammadmuso Alijonov — AI & IT Teacher, Prompt Engineering Specialist. Sun’iy intellekt, Prompt Engineering va kompyuter savodxonligi bo‘yicha darslar.">
+  <script>
+    // Sahifa ochilishidan oldin saqlangan (yoki tizimdagi) mavzuni qo‘llash
+    (function () {
+      let theme = null;
+      try { theme = localStorage.getItem("theme"); } catch (e) {}
+      if (!theme) theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== Ranglar va asosiy sozlamalar ===== */
+    :root {
+      --deep: #0c3b36;
+      --deep-2: #12554d;
+      --accent: #0f7a73;
+      --radius: 16px;
+
+      /* Yorug‘ mavzu (light) */
+      --bg: #ffffff;
+      --surface: #ffffff;
+      --surface-2: #f3f7f4;
+      --border: #e2ebe6;
+      --border-strong: #c6d8cf;
+      --heading: #0c3b36;
+      --text: #1d2b28;
+      --muted: #5f716c;
+      --primary: #0f6f6f;
+      --on-primary: #ffffff;
+      --header-bg: rgba(255, 255, 255, .9);
+      --contact-bg:
+        radial-gradient(60% 90% at 100% 0%, rgba(60, 192, 168, .35) 0%, rgba(60, 192, 168, 0) 70%),
+        #0c3b36;
+      --shadow: 0 10px 30px rgba(12, 59, 54, 0.08);
+
+      /* Hero (yashil-moviy gradient) */
+      --teal: #0f6f6f;
+      --teal-hover: #0b5a5b;
+      --hero-heading: #0c3b36;
+      --hero-text: #3d524d;
+      --hero-ghost: rgba(255, 255, 255, .65);
+      --hero-ghost-hover: rgba(255, 255, 255, .9);
+      --hero-ghost-border: rgba(12, 59, 54, .12);
+      --hero-bg:
+        radial-gradient(45% 60% at 100% 0%, rgba(60, 192, 168, .75) 0%, rgba(60, 192, 168, 0) 70%),
+        radial-gradient(55% 50% at 72% 18%, rgba(176, 226, 125, .55) 0%, rgba(176, 226, 125, 0) 70%),
+        linear-gradient(180deg, #cdeab2 0%, #dcf0c9 35%, #ecf4e7 70%, #f3f7f4 100%);
+    }
+
+    /* Qorong‘i mavzu (dark) */
+    :root[data-theme="dark"] {
+      --accent: #4fd1bf;
+      --bg: #08120f;
+      --surface: #0f1d1a;
+      --surface-2: #0b1714;
+      --border: #1b2e29;
+      --border-strong: #2a453e;
+      --heading: #e4f3ec;
+      --text: #cfdcd7;
+      --muted: #8fa6a0;
+      --primary: #13908b;
+      --on-primary: #ffffff;
+      --header-bg: rgba(8, 18, 15, .85);
+      --contact-bg:
+        radial-gradient(60% 90% at 100% 0%, rgba(25, 150, 140, .3) 0%, rgba(25, 150, 140, 0) 70%),
+        #0f2a26;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      --teal: #13908b;
+      --teal-hover: #17a39d;
+      --hero-heading: #e4f3ec;
+      --hero-text: #a7bcb5;
+      --hero-ghost: rgba(255, 255, 255, .07);
+      --hero-ghost-hover: rgba(255, 255, 255, .13);
+      --hero-ghost-border: rgba(255, 255, 255, .12);
+      --hero-bg:
+        radial-gradient(45% 60% at 100% 0%, rgba(25, 150, 140, .45) 0%, rgba(25, 150, 140, 0) 70%),
+        radial-gradient(55% 50% at 72% 18%, rgba(95, 165, 75, .22) 0%, rgba(95, 165, 75, 0) 70%),
+        linear-gradient(180deg, #112821 0%, #0d1d19 45%, #0b1714 100%);
+      color-scheme: dark;
+    }
+
+    /* Mavzu almashtirish tugmasi */
+    .nav-actions { display: flex; align-items: center; gap: 12px; }
+    .theme-toggle {
+      width: 42px; height: 42px;
+      border-radius: 12px;
+      border: 1px solid var(--hero-ghost-border);
+      background: var(--hero-ghost);
+      color: var(--hero-heading);
+      display: grid; place-items: center;
+      cursor: pointer;
+      transition: transform .2s ease, border-color .2s ease;
+    }
+    .theme-toggle:hover { transform: translateY(-2px); background: var(--hero-ghost-hover); }
+    .theme-toggle svg { width: 20px; height: 20px; }
+    .theme-toggle .icon-sun { display: none; }
+    [data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+    [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+    body { transition: background-color .3s ease, color .3s ease; }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container { width: 100%; max-width: 1140px; margin: 0 auto; padding: 0 20px; }
+
+    section { padding: 96px 0; }
+    .bg-gray { background: var(--surface-2); }
+
+    .section-label {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 800;
+      color: var(--heading);
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      margin-bottom: 16px;
+    }
+    .section-text { color: var(--muted); max-width: 600px; font-size: 17px; }
+    .section-head { margin-bottom: 48px; }
+
+    /* ===== Tugmalar ===== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 26px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 15px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
+    }
+    .btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-light { background: #fff; color: var(--deep); }
+    .btn-light:hover { box-shadow: 0 10px 24px rgba(0, 0, 0, .2); }
+
+    /* ===== Header ===== */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: transparent;
+      border-bottom: 1px solid transparent;
+      transition: background-color .2s ease, border-color .2s ease;
+    }
+    .header.scrolled {
+      background: var(--header-bg);
+      border-bottom-color: var(--border);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--hero-heading); }
+    .logo-mark {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      background: var(--teal);
+      color: #fff;
+      display: grid; place-items: center;
+      font-size: 13px; font-weight: 800;
+    }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--hero-heading); opacity: .85; transition: opacity .2s; }
+    .nav-links a:hover { opacity: 1; }
+    .nav .btn { padding: 10px 18px; font-size: 14px; }
+
+    /* Hero tugmalari (teal) */
+    .btn-teal {
+      background: var(--teal);
+      color: #fff;
+      border-radius: 6px;
+      box-shadow: 0 4px 14px rgba(15, 111, 111, .25);
+    }
+    .btn-teal:hover { background: var(--teal-hover); box-shadow: 0 8px 20px rgba(15, 111, 111, .3); }
+    .btn-ghost {
+      background: var(--hero-ghost);
+      color: var(--hero-heading);
+      border: 1px solid var(--hero-ghost-border);
+      border-radius: 6px;
+    }
+    .btn-ghost:hover { background: var(--hero-ghost-hover); }
+
+    /* ===== Hero ===== */
+    .hero {
+      margin-top: -72px;
+      padding: 72px 0 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--hero-bg);
+    }
+    .hero-inner {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 96px 0 72px;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      color: var(--hero-heading);
+      max-width: 860px;
+    }
+    .hero-text {
+      font-size: 18px;
+      color: var(--hero-text);
+      max-width: 580px;
+      margin: 22px auto 34px;
+    }
+    .hero-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+    .hero-buttons .btn { padding: 12px 24px; }
+
+    .hero-trust { padding-bottom: 64px; text-align: center; }
+    .pill {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: var(--hero-ghost);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--hero-heading);
+    }
+    .trust-logos {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 24px 64px;
+      margin-top: 32px;
+      color: var(--hero-heading);
+    }
+    .trust-logo { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 700; letter-spacing: -.3px; opacity: .85; }
+    .trust-logo svg { width: 26px; height: 26px; }
+    .trust-logo small { font-size: 13px; font-weight: 600; letter-spacing: 2px; opacity: .8; }
+
+    /* Portret */
+    .portrait-wrap { display: flex; flex-direction: column; align-items: center; }
+    .portrait {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      aspect-ratio: 4 / 5;
+      border-radius: 28px;
+      background: linear-gradient(160deg, var(--deep-2) 0%, var(--deep) 100%);
+      overflow: hidden;
+      box-shadow: 0 30px 60px rgba(12, 59, 54, .22);
+    }
+    .portrait::after {
+      content: "";
+      position: absolute; inset: 14px;
+      border: 1px solid rgba(255, 255, 255, .15);
+      border-radius: 20px;
+      pointer-events: none;
+    }
+    .portrait-initials {
+      position: absolute; inset: 0;
+      display: grid; place-items: center;
+      font-size: 96px; font-weight: 800;
+      color: rgba(255, 255, 255, .9);
+      letter-spacing: -2px;
+    }
+    .portrait img { position: relative; width: 100%; height: 100%; object-fit: cover; }
+    .portrait-caption {
+      margin-top: 24px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--heading);
+      text-align: center;
+    }
+    .portrait-caption span { color: var(--accent); margin: 0 8px; }
+
+    /* ===== Men haqimda ===== */
+    .about-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 72px; align-items: center; }
+    .about-text p { font-size: 18px; color: var(--text); margin-bottom: 18px; }
+    .about-text p.muted { color: var(--muted); font-size: 17px; }
+    .about-points { list-style: none; display: grid; gap: 12px; margin-top: 24px; }
+    .about-points li { display: flex; gap: 12px; align-items: flex-start; color: var(--text); font-weight: 500; }
+    .check {
+      flex-shrink: 0;
+      width: 24px; height: 24px; border-radius: 50%;
+      background: var(--primary); color: var(--on-primary);
+      display: grid; place-items: center; font-size: 12px; margin-top: 1px;
+    }
+
+    /* ===== Xizmatlar ===== */
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px 30px;
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--border-strong); }
+    .card-num { font-size: 15px; font-weight: 700; color: var(--accent); margin-bottom: 20px; }
+    .card h3 { font-size: 21px; color: var(--heading); margin-bottom: 12px; font-weight: 700; }
+    .card p { color: var(--muted); font-size: 16px; }
+
+    /* ===== Men bilan ishlash ===== */
+    .work-list { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+    .work-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 22px;
+      text-align: center;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .work-item:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .work-icon {
+      width: 52px; height: 52px; margin: 0 auto 16px;
+      border-radius: 14px;
+      background: var(--surface-2);
+      color: var(--heading);
+      display: grid; place-items: center;
+    }
+    .work-icon svg { width: 24px; height: 24px; }
+    .work-item h3 { font-size: 16px; font-weight: 600; color: var(--heading); }
+
+    /* ===== Faoliyatim ===== */
+    .timeline { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .exp {
+      display: flex; gap: 22px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      transition: box-shadow .25s ease;
+    }
+    .exp:hover { box-shadow: var(--shadow); }
+    .exp-logo {
+      flex-shrink: 0;
+      width: 60px; height: 60px; border-radius: 14px;
+      background: var(--primary); color: var(--on-primary);
+      display: grid; place-items: center;
+      font-weight: 800; font-size: 18px;
+    }
+    .exp-role { font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); }
+    .exp h3 { font-size: 22px; color: var(--heading); margin: 4px 0 10px; }
+    .exp p { color: var(--muted); font-size: 16px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .tag {
+      font-size: 13px; font-weight: 500;
+      padding: 5px 12px; border-radius: 999px;
+      background: var(--surface-2); color: var(--heading);
+      border: 1px solid var(--border);
+    }
+
+    /* ===== Aloqa ===== */
+    .contact-box {
+      background: var(--contact-bg);
+      color: #fff;
+      border-radius: 28px;
+      padding: 64px;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .contact-box .section-label { color: #8fe3cf; }
+    .contact-box .section-title { color: #fff; }
+    .contact-box .section-text { color: rgba(255, 255, 255, .7); margin-bottom: 32px; }
+    .contact-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .contact-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 20px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .06);
+      border: 1px solid rgba(255, 255, 255, .1);
+      transition: background .2s ease, transform .2s ease;
+      min-width: 0;
+    }
+    .contact-item:hover { background: rgba(255, 255, 255, .12); transform: translateY(-2px); }
+    .contact-icon {
+      flex-shrink: 0;
+      width: 44px; height: 44px; border-radius: 12px;
+      background: #fff; color: var(--deep);
+      display: grid; place-items: center;
+    }
+    .contact-icon svg { width: 20px; height: 20px; }
+    .contact-item small { display: block; font-size: 13px; color: rgba(255, 255, 255, .6); }
+    .contact-item strong { display: block; font-size: 15px; font-weight: 600; overflow-wrap: anywhere; }
+
+    /* ===== Footer ===== */
+    .footer { padding: 32px 0; border-top: 1px solid var(--border); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .footer p { font-size: 14px; color: var(--muted); }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { font-size: 14px; color: var(--muted); transition: color .2s; }
+    .footer-links a:hover { color: var(--heading); }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 1024px) {
+      .work-list { grid-template-columns: repeat(3, 1fr); }
+      .contact-box { grid-template-columns: 1fr; padding: 48px; }
+    }
+
+    @media (max-width: 860px) {
+      section { padding: 72px 0; }
+      .nav-links { display: none; }
+      .hero-inner { padding: 72px 0 56px; }
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .portrait-wrap { order: -1; }
+      .portrait { max-width: 320px; }
+      .cards, .timeline { grid-template-columns: 1fr; }
+      .work-list { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 560px) {
+      .container { padding: 0 16px; }
+      .hero-buttons .btn { width: 100%; justify-content: center; }
+      .hero h1 br { display: none; }
+      .hero-text { font-size: 16px; }
+      .trust-logos { gap: 16px 32px; }
+      .trust-logo { font-size: 18px; }
+      .portrait { max-width: 280px; }
+      .portrait-caption { font-size: 12px; letter-spacing: 2px; }
+      .work-list { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .work-item { padding: 22px 14px; }
+      .exp { flex-direction: column; padding: 26px; }
+      .contact-box { padding: 32px 20px; border-radius: 20px; }
+      .contact-list { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Header ===== -->
+  <header class="header" id="header">
+    <div class="container nav">
+      <a href="#" class="logo">
+        <span class="logo-mark">MA</span>
+        <span>Alijonov</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#about">Men haqimda</a></li>
+        <li><a href="#services">Xizmatlar</a></li>
+        <li><a href="#experience">Faoliyatim</a></li>
+        <li><a href="#contact">Aloqa</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Mavzuni almashtirish" title="Mavzuni almashtirish">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <a href="#contact" class="btn btn-teal">Bog‘lanish</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== Hero ===== -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <h1>Sun’iy intellektni o‘rganing,<br> ishni tezroq bajaring</h1>
+        <p class="hero-text">Muhammadmuso Alijonov — AI & IT Teacher va Prompt Engineering mutaxassisi. Zamonaviy texnologiyalarni sodda, tushunarli va amaliy usulda o‘rgataman.</p>
+        <div class="hero-buttons">
+          <a href="#contact" class="btn btn-teal">Men bilan bog‘lanish</a>
+          <a href="https://t.me/uzalijonov" target="_blank" rel="noopener" class="btn btn-ghost">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3 18.6 19.8c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.2-8.3c.4-.4-.1-.6-.6-.2L6 13.3 1.1 11.8c-1.1-.3-1.1-1.1.2-1.6L20.5 2.8c.9-.3 1.7.2 1.4 1.5z"/></svg>
+            Telegram orqali yozish
+          </a>
+        </div>
+      </div>
+
+      <div class="container hero-trust">
+        <span class="pill">Ta’lim faoliyatim</span>
+        <div class="trust-logos">
+          <div class="trust-logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 9-4 3 4 3M16 9l4 3-4 3M14 5l-4 14"/></svg>
+            Codial Academy
+          </div>
+          <div class="trust-logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 9 12 4 2 9l10 5 10-5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/></svg>
+            iTeach Academy
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Men haqimda ===== -->
+    <section class="bg-gray" id="about">
+      <div class="container about-grid">
+        <div class="portrait-wrap">
+          <div class="portrait">
+            <!-- Portret: shu papkaga "portret.jpg" nomli rasm qo‘ying -->
+            <div class="portrait-initials">MA</div>
+            <img src="portret.jpg" alt="Muhammadmuso Alijonov" onerror="this.remove()">
+          </div>
+          <p class="portrait-caption">AI<span>•</span>IT<span>•</span>PROMPT ENGINEERING</p>
+        </div>
+        <div class="about-text">
+          <span class="section-label">Men haqimda</span>
+          <h2 class="section-title">Texnologiyani sodda va amaliy o‘rgataman</h2>
+          <p>Men sun’iy intellekt, IT va Prompt Engineering yo‘nalishlarida dars beraman.</p>
+          <p class="muted">O‘quvchilarga zamonaviy texnologiyalarni sodda, tushunarli va amaliy usulda o‘rgatishga e’tibor beraman.</p>
+          <ul class="about-points">
+            <li><span class="check">✓</span> AI & IT Teacher</li>
+            <li><span class="check">✓</span> Prompt Engineering Specialist</li>
+            <li><span class="check">✓</span> Amaliyotga yo‘naltirilgan darslar</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Xizmatlar ===== -->
+    <section id="services">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-label">Xizmatlarim</span>
+          <h2 class="section-title">Nimalarni o‘rgataman</h2>
+          <p class="section-text">Har bir yo‘nalish amaliy mashg‘ulotlar va real misollar asosida o‘tiladi.</p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <div class="card-num">01</div>
+            <h3>Sun’iy intellekt</h3>
+            <p>AI vositalari, ChatGPT va zamonaviy AI texnologiyalaridan amaliy foydalanishni o‘rgatish.</p>
+          </article>
+          <article class="card">
+            <div class="card-num">02</div>
+            <h3>Prompt Engineering</h3>
+            <p>AI uchun professional promptlar yaratish va AI yordamida ish samaradorligini oshirish.</p>
+          </article>
+          <article class="card">
+            <div class="card-num">03</div>
+            <h3>Kompyuter savodxonligi</h3>
+            <p>Kompyuter, Microsoft Office, internet va zamonaviy raqamli vositalardan foydalanishni o‘rgatish.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Men bilan ishlash ===== -->
+    <section class="bg-gray" id="work">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-label">Men bilan ishlash</span>
+          <h2 class="section-title">Hamkorlik formatlari</h2>
+          <p class="section-text">Sizga qulay formatni tanlang — natijaga yo‘naltirilgan yondashuv.</p>
+        </div>
+        <div class="work-list">
+          <div class="work-item">
+            <div class="work-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div>
+            <h3>Individual darslar</h3>
+          </div>
+          <div class="work-item">
+            <div class="work-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-3.5 3.5-5 7-5s7 1.5 7 5M16 14.5c3 0 6 1.3 6 4.5"/></svg></div>
+            <h3>Guruh mashg‘ulotlari</h3>
+          </div>
+          <div class="work-item">
+            <div class="work-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></svg></div>
+            <h3>AI konsultatsiya</h3>
+          </div>
+          <div class="work-item">
+            <div class="work-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 9-4 3 4 3M16 9l4 3-4 3M14 5l-4 14"/></svg></div>
+            <h3>Prompt Engineering</h3>
+          </div>
+          <div class="work-item">
+            <div class="work-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></div>
+            <h3>IT treninglar</h3>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Faoliyatim ===== -->
+    <section id="experience">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-label">Faoliyatim</span>
+          <h2 class="section-title">Ta’lim sohasidagi tajriba</h2>
+          <p class="section-text">Zamonaviy o‘quv markazlarida AI va IT yo‘nalishlari bo‘yicha ta’lim berish.</p>
+        </div>
+        <div class="timeline">
+          <article class="exp">
+            <div class="exp-logo">CA</div>
+            <div>
+              <span class="exp-role">AI & IT o‘qituvchi</span>
+              <h3>Codial Academy</h3>
+              <p>O‘quvchilarga sun’iy intellekt, Prompt Engineering va zamonaviy IT ko‘nikmalarini amaliy mashg‘ulotlar orqali o‘rgatish.</p>
+              <div class="tags">
+                <span class="tag">Sun’iy intellekt</span>
+                <span class="tag">Prompt Engineering</span>
+                <span class="tag">IT</span>
+              </div>
+            </div>
+          </article>
+          <article class="exp">
+            <div class="exp-logo">iT</div>
+            <div>
+              <span class="exp-role">AI & IT o‘qituvchi</span>
+              <h3>iTeach Academy</h3>
+              <p>AI vositalari va raqamli savodxonlik bo‘yicha darslar — texnologiyani sodda, tushunarli va natijaga yo‘naltirilgan tarzda o‘rgatish.</p>
+              <div class="tags">
+                <span class="tag">AI vositalari</span>
+                <span class="tag">Kompyuter savodxonligi</span>
+                <span class="tag">Treninglar</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Aloqa ===== -->
+    <section id="contact" style="padding-top: 0;">
+      <div class="container">
+        <div class="contact-box">
+          <div>
+            <span class="section-label">Aloqa</span>
+            <h2 class="section-title">Keling, birga o‘rganamiz</h2>
+            <p class="section-text">Dars, konsultatsiya yoki hamkorlik bo‘yicha savollaringiz bo‘lsa — bemalol yozing yoki qo‘ng‘iroq qiling.</p>
+            <a href="https://t.me/uzalijonov" target="_blank" rel="noopener" class="btn btn-light">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3 18.6 19.8c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.2-8.3c.4-.4-.1-.6-.6-.2L6 13.3 1.1 11.8c-1.1-.3-1.1-1.1.2-1.6L20.5 2.8c.9-.3 1.7.2 1.4 1.5z"/></svg>
+              Telegram orqali yozish
+            </a>
+          </div>
+
+          <div class="contact-list">
+            <a href="tel:+998888030060" class="contact-item">
+              <span class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span>
+              <span><small>Telefon</small><strong>+998 88 803 00 60</strong></span>
+            </a>
+            <a href="https://t.me/uzalijonov" target="_blank" rel="noopener" class="contact-item">
+              <span class="contact-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3 18.6 19.8c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.2-8.3c.4-.4-.1-.6-.6-.2L6 13.3 1.1 11.8c-1.1-.3-1.1-1.1.2-1.6L20.5 2.8c.9-.3 1.7.2 1.4 1.5z"/></svg></span>
+              <span><small>Telegram</small><strong>@uzalijonov</strong></span>
+            </a>
+            <a href="https://instagram.com/1.alijonov_muhammadmuso" target="_blank" rel="noopener" class="contact-item">
+              <span class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor"/></svg></span>
+              <span><small>Instagram</small><strong>@1.alijonov_muhammadmuso</strong></span>
+            </a>
+            <a href="mailto:mukhammadmusoAlijonov@gmail.com" class="contact-item">
+              <span class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></span>
+              <span><small>Email</small><strong>mukhammadmusoAlijonov@gmail.com</strong></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>© 2026 Muhammadmuso Alijonov. Barcha huquqlar himoyalangan.</p>
+      <div class="footer-links">
+        <a href="https://t.me/uzalijonov" target="_blank" rel="noopener">Telegram</a>
+        <a href="https://instagram.com/1.alijonov_muhammadmuso" target="_blank" rel="noopener">Instagram</a>
+        <a href="mailto:mukhammadmusoAlijonov@gmail.com">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Sahifa pastga aylantirilganda header ostiga chiziq chiqadi
+    const header = document.getElementById("header");
+    window.addEventListener("scroll", () => {
+      header.classList.toggle("scrolled", window.scrollY > 10);
+    });
+
+    // Yorug‘ / qorong‘i mavzuni almashtirish
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      const root = document.documentElement;
+      const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      try { localStorage.setItem("theme", next); } catch (e) {}
+    });
+  </script>
+</body>
+</html>
